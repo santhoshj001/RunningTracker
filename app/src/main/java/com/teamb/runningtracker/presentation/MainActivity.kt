@@ -1,4 +1,4 @@
-package com.teamb.runningtracker
+package com.teamb.runningtracker.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

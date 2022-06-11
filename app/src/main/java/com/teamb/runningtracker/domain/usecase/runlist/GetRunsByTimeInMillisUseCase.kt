@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetRunsByAvgSpeed @Inject constructor(
+class GetRunsByTimeInMillisUseCase @Inject constructor(
     private val repository: RunLocalRepository
 ) {
     operator fun invoke(): Flow<List<RunUiModel>> {
-        return repository.getRunsByAvgSpeed().map { Runs ->
+        return repository.getRunsByTimeInMillis().map { Runs ->
             Runs.map {
                 it.toRunUiModel()
             }

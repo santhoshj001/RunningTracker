@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetRunsByTimeInMillis @Inject constructor(
+class GetRunsByTimeStampUseCase @Inject constructor(
     private val repository: RunLocalRepository
 ) {
     operator fun invoke(): Flow<List<RunUiModel>> {
-        return repository.getRunsByTimeInMillis().map { Runs ->
+        return repository.getRunsByTimeStamp().map { Runs ->
             Runs.map {
                 it.toRunUiModel()
             }

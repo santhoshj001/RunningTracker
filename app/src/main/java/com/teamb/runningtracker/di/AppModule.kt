@@ -6,6 +6,8 @@ import com.teamb.runningtracker.data.local.RunDao
 import com.teamb.runningtracker.data.local.RunDatabase
 import com.teamb.runningtracker.data.repository.RunLocalRepository
 import com.teamb.runningtracker.domain.repository.RunLocalRepositoryImpl
+import com.teamb.runningtracker.domain.usecase.runlist.*
+import com.teamb.runningtracker.domain.usecase.runstatistics.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,6 +39,42 @@ object AppModule {
     @Singleton
     fun providesRepository(database: RunDatabase): RunLocalRepository {
         return RunLocalRepositoryImpl(database.runDao)
+    }
+
+
+    @Provides
+    @Singleton
+    fun providesRunListUseCase(repository: RunLocalRepository): RunListUseCase {
+        return RunListUseCase(
+            getRunsByDistanceUseCase = GetRunsByDistanceUseCase(
+                repository = repository
+            ), getRunsByTimeInMillisUseCase = GetRunsByTimeInMillisUseCase(
+                repository = repository
+            ), getRunsByTimeStampUseCase = GetRunsByTimeStampUseCase(
+                repository = repository
+            ), getRunsByAvgSpeedUseCase = GetRunsByAvgSpeedUseCase(
+                repository = repository
+            ), getRunsByCaloriesUseCase = GetRunsByCaloriesUseCase(
+                repository = repository
+            )
+        )
+    }
+
+
+    @Provides
+    @Singleton
+    fun providesRunStatisticsUseCase(repository: RunLocalRepository): RunStatisticsUseCase {
+        return RunStatisticsUseCase(
+            getTotalDistanceUseCase = GetTotalDistanceCoveredUseCase(
+                repository = repository
+            ), getTotalTimeInMillisUseCase = GetTotalTimeInMillisUseCase(
+                repository = repository
+            ), getTotalCaloriesBurnedUseCase = GetTotalCaloriesBurnedUseCase(
+                repository = repository
+            ), getTotalAvgSpeedUseCase = GetTotalAvgSpeedUseCase(
+                repository = repository
+            )
+        )
     }
 
 }
