@@ -2,7 +2,10 @@ package com.teamb.runningtracker.di
 
 import android.content.Context
 import androidx.room.Room
+import com.teamb.runningtracker.data.local.RunDao
 import com.teamb.runningtracker.data.local.RunDatabase
+import com.teamb.runningtracker.data.repository.RunLocalRepository
+import com.teamb.runningtracker.domain.repository.RunLocalRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,4 +26,17 @@ object AppModule {
             "run_database"
         ).build()
     }
+
+    @Provides
+    @Singleton
+    fun providesDao(database: RunDatabase): RunDao {
+        return database.runDao
+    }
+
+    @Provides
+    @Singleton
+    fun providesRepository(database: RunDatabase): RunLocalRepository {
+        return RunLocalRepositoryImpl(database.runDao)
+    }
+
 }
