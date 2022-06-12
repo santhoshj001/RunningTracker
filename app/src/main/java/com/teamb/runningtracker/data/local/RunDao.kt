@@ -4,7 +4,6 @@ import androidx.room.*
 import com.teamb.runningtracker.common.Constants
 import kotlinx.coroutines.flow.Flow
 
-
 @Dao
 interface RunDao {
 

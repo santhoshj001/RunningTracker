@@ -8,6 +8,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RunListViewModel @Inject constructor(
-    runListUseCase: RunListUseCase
+    private val runListUseCase: RunListUseCase
 ) : ViewModel() {
 }

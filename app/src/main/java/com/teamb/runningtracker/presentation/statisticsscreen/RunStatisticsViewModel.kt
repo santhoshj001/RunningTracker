@@ -7,6 +7,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RunStatisticsViewModel @Inject constructor(
-    runStatisticsUseCase: RunStatisticsUseCase
+    private val runStatisticsUseCase: RunStatisticsUseCase
 ) : ViewModel() {
 }
