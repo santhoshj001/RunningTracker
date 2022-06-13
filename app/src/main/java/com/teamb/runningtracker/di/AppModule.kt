@@ -118,7 +118,6 @@ object AppModule {
         )
     }
 
-
     @Provides
     @Singleton
     fun providesValidationUseCase(): ValidationUseCase {

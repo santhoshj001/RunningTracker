@@ -23,8 +23,8 @@ object Extensions {
         return UserDetail.getDefaultInstance().toBuilder()
             .setFirstName(this.firstName)
             .setLastName(this.lastName)
-            .setLastName(this.lastName)
             .setAge(this.age)
+            .setWeight(this.weight)
             .build()
     }
 
