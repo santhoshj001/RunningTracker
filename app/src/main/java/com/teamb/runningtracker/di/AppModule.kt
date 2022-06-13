@@ -11,9 +11,15 @@ import com.teamb.runningtracker.data.local.RunDao
 import com.teamb.runningtracker.data.local.RunDatabase
 import com.teamb.runningtracker.data.proto.UserDetailSerializer
 import com.teamb.runningtracker.data.repository.RunLocalRepository
+import com.teamb.runningtracker.data.repository.UserDetailRepository
 import com.teamb.runningtracker.domain.repository.RunLocalRepositoryImpl
+import com.teamb.runningtracker.domain.repository.UserDetailRepositoryImpl
 import com.teamb.runningtracker.domain.usecase.runlist.*
 import com.teamb.runningtracker.domain.usecase.runstatistics.*
+import com.teamb.runningtracker.domain.usecase.userdetail.GetUserDetailUseCase
+import com.teamb.runningtracker.domain.usecase.userdetail.SaveUserDetailUseCase
+import com.teamb.runningtracker.domain.usecase.userdetail.UserDetailUseCase
+import com.teamb.runningtracker.domain.usecase.validation.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,7 +49,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesRepository(database: RunDatabase): RunLocalRepository {
+    fun providesLocalRepository(database: RunDatabase): RunLocalRepository {
         return RunLocalRepositoryImpl(database.runDao)
     }
 
@@ -92,5 +98,35 @@ object AppModule {
             }
         )
 
+    }
+
+    @Provides
+    @Singleton
+    fun providesUserDetailRepository(datastore: DataStore<UserDetail>): UserDetailRepository {
+        return UserDetailRepositoryImpl(datastore)
+    }
+
+    @Provides
+    @Singleton
+    fun providesUserDetailUseCase(userDetailRepository: UserDetailRepository): UserDetailUseCase {
+        return UserDetailUseCase(
+            getUserDetailUseCase = GetUserDetailUseCase(
+                userDetailRepository = userDetailRepository
+            ), saveUserDetailUseCase = SaveUserDetailUseCase(
+                userDetailRepository = userDetailRepository
+            )
+        )
+    }
+
+
+    @Provides
+    @Singleton
+    fun providesValidationUseCase(): ValidationUseCase {
+        return ValidationUseCase(
+            firstNameValidationUseCase = FirstNameValidationUseCase(),
+            lastNameValidationUseCase = LastNameValidationUseCase(),
+            ageValidationUseCase = AgeValidationUseCase(),
+            weightValidationUseCase = WeightValidationUseCase()
+        )
     }
 }
