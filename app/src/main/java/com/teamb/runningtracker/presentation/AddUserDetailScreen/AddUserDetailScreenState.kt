@@ -1,6 +1,6 @@
-package com.teamb.runningtracker.presentation.authScreen
+package com.teamb.runningtracker.presentation.AddUserDetailScreen
 
-data class AuthScreenState(
+data class AddUserDetailScreenState(
     val firstName: String = "",
     val lastName: String = "",
     val age: String = "0",

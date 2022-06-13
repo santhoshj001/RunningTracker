@@ -1,4 +1,4 @@
-package com.teamb.runningtracker.presentation.authScreen
+package com.teamb.runningtracker.presentation.AddUserDetailScreen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -14,8 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun AuthScreen(
-    viewModel: UserAuthViewModel = hiltViewModel()
+fun AddUserDetailScreen(
+    viewModel: AddUserAuthViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state
@@ -24,11 +24,10 @@ fun AuthScreen(
             Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-
             OutlinedTextField(
                 value = state.firstName,
                 onValueChange = {
-                    viewModel.onEvent(AuthScreenEvent.OnFirstNameChange(it))
+                    viewModel.onEvent(AddUserDetailScreenEvent.OnFirstNameChange(it))
                 },
                 isError = state.firstNameError != null,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -51,7 +50,7 @@ fun AuthScreen(
             OutlinedTextField(
                 value = state.lastName,
                 onValueChange = {
-                    viewModel.onEvent(AuthScreenEvent.OnLastNameChange(it))
+                    viewModel.onEvent(AddUserDetailScreenEvent.OnLastNameChange(it))
                 },
                 isError = state.lastNameError != null,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -72,7 +71,7 @@ fun AuthScreen(
             OutlinedTextField(
                 value = state.age.toString(),
                 onValueChange = {
-                    viewModel.onEvent(AuthScreenEvent.OnAgeChange(it))
+                    viewModel.onEvent(AddUserDetailScreenEvent.OnAgeChange(it))
                 },
                 isError = state.ageError != null,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -94,7 +93,7 @@ fun AuthScreen(
             OutlinedTextField(
                 value = state.weight.toString(),
                 onValueChange = {
-                    viewModel.onEvent(AuthScreenEvent.OnWeightChange(it))
+                    viewModel.onEvent(AddUserDetailScreenEvent.OnWeightChange(it))
                 },
                 isError = state.weightError != null,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -115,7 +114,7 @@ fun AuthScreen(
 
 
             OutlinedButton(
-                onClick = { viewModel.onEvent(AuthScreenEvent.OnSubmit) },
+                onClick = { viewModel.onEvent(AddUserDetailScreenEvent.OnSubmit) },
                 modifier = Modifier.padding(vertical = 12.dp)
             ) {
                 Text(

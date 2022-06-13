@@ -1,4 +1,4 @@
-package com.teamb.runningtracker.presentation.runlistscreen
+package com.teamb.runningtracker.presentation.RunListScreen
 
 import androidx.lifecycle.ViewModel
 import com.teamb.runningtracker.domain.usecase.runlist.RunListUseCase

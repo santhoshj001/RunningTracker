@@ -1,4 +1,4 @@
-package com.teamb.runningtracker.presentation.authScreen
+package com.teamb.runningtracker.presentation.AddUserDetailScreen
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserAuthViewModel @Inject constructor(
+class AddUserAuthViewModel @Inject constructor(
     private val userDetailUseCase: UserDetailUseCase,
     private val validationUseCase: ValidationUseCase
 ) : ViewModel() {
@@ -22,27 +22,27 @@ class UserAuthViewModel @Inject constructor(
         getUserDetail()
     }
 
-    var state by mutableStateOf(AuthScreenState())
+    var state by mutableStateOf(AddUserDetailScreenState())
         private set
 
-    fun onEvent(event: AuthScreenEvent) {
+    fun onEvent(event: AddUserDetailScreenEvent) {
         when (event) {
 
-            is AuthScreenEvent.OnFirstNameChange -> {
+            is AddUserDetailScreenEvent.OnFirstNameChange -> {
                 state = state.copy(
                     firstName = event.firstName
                 )
             }
-            is AuthScreenEvent.OnLastNameChange -> {
+            is AddUserDetailScreenEvent.OnLastNameChange -> {
                 state = state.copy(lastName = event.lastName)
             }
-            is AuthScreenEvent.OnAgeChange -> {
+            is AddUserDetailScreenEvent.OnAgeChange -> {
                 state = state.copy(age = event.age)
             }
-            is AuthScreenEvent.OnWeightChange -> {
+            is AddUserDetailScreenEvent.OnWeightChange -> {
                 state = state.copy(weight = event.weight)
             }
-            is AuthScreenEvent.OnSubmit -> {
+            is AddUserDetailScreenEvent.OnSubmit -> {
                 saveUserDetail()
             }
         }
