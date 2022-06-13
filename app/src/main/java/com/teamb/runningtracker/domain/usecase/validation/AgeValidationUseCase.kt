@@ -4,7 +4,10 @@ import com.teamb.runningtracker.common.ValidationResult
 
 class AgeValidationUseCase {
     operator fun invoke(age: String): ValidationResult {
-        if (age.any { !it.isDigit() }) {
+        if (age.isBlank()) {
+            return ValidationResult(false, "enter a valid number")
+        }
+        if (age.toIntOrNull() == null) {
             return ValidationResult(false, "enter a valid number")
         }
         if (age.toInt() !in 1..100) {

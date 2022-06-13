@@ -82,7 +82,7 @@ class UserAuthViewModel @Inject constructor(
                     firstName = state.firstName,
                     lastName = state.lastName,
                     age = state.age.toInt(),
-                    weight = state.weight.toInt()
+                    weight = state.weight.toFloat()
                 )
                 userDetailUseCase.saveUserDetailUseCase.saveUSerDetail(userDetailUiModel)
             }
