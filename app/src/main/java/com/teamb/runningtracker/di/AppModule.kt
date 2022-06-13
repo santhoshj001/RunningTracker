@@ -1,9 +1,15 @@
 package com.teamb.runningtracker.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.core.DataStoreFactory
+import androidx.datastore.dataStoreFile
 import androidx.room.Room
+import com.teamb.runningtracker.UserDetail
+import com.teamb.runningtracker.common.Constants
 import com.teamb.runningtracker.data.local.RunDao
 import com.teamb.runningtracker.data.local.RunDatabase
+import com.teamb.runningtracker.data.proto.UserDetailSerializer
 import com.teamb.runningtracker.data.repository.RunLocalRepository
 import com.teamb.runningtracker.domain.repository.RunLocalRepositoryImpl
 import com.teamb.runningtracker.domain.usecase.runlist.*
@@ -41,7 +47,6 @@ object AppModule {
         return RunLocalRepositoryImpl(database.runDao)
     }
 
-
     @Provides
     @Singleton
     fun providesRunListUseCase(repository: RunLocalRepository): RunListUseCase {
@@ -60,7 +65,6 @@ object AppModule {
         )
     }
 
-
     @Provides
     @Singleton
     fun providesRunStatisticsUseCase(repository: RunLocalRepository): RunStatisticsUseCase {
@@ -77,4 +81,16 @@ object AppModule {
         )
     }
 
+    @Provides
+    @Singleton
+    fun providesProtoDataStore(@ApplicationContext context: Context)
+            : DataStore<UserDetail> {
+        return DataStoreFactory.create(
+            serializer = UserDetailSerializer,
+            produceFile = {
+                context.dataStoreFile(Constants.PROTO_DATA_STORE)
+            }
+        )
+
+    }
 }
