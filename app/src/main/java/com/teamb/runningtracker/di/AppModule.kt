@@ -4,6 +4,9 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.teamb.runningtracker.UserDetail
 import com.teamb.runningtracker.common.Constants
@@ -11,9 +14,12 @@ import com.teamb.runningtracker.data.local.RunDao
 import com.teamb.runningtracker.data.local.RunDatabase
 import com.teamb.runningtracker.data.proto.UserDetailSerializer
 import com.teamb.runningtracker.data.repository.RunLocalRepository
+import com.teamb.runningtracker.data.repository.SplashRepository
 import com.teamb.runningtracker.data.repository.UserDetailRepository
 import com.teamb.runningtracker.domain.repository.RunLocalRepositoryImpl
+import com.teamb.runningtracker.domain.repository.SplashRepositoryImpl
 import com.teamb.runningtracker.domain.repository.UserDetailRepositoryImpl
+import com.teamb.runningtracker.domain.usecase.SplashScreenUseCase
 import com.teamb.runningtracker.domain.usecase.runlist.*
 import com.teamb.runningtracker.domain.usecase.runstatistics.*
 import com.teamb.runningtracker.domain.usecase.userdetail.GetUserDetailUseCase
@@ -127,5 +133,25 @@ object AppModule {
             ageValidationUseCase = AgeValidationUseCase(),
             weightValidationUseCase = WeightValidationUseCase()
         )
+    }
+
+    @Singleton
+    @Provides
+    fun providesPreferenceDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
+            produceFile = { context.preferencesDataStoreFile(Constants.USER_PREFERENCE) }
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun providesSplashRepository(datastore: DataStore<Preferences>): SplashRepository {
+        return SplashRepositoryImpl(datastore)
+    }
+
+    @Provides
+    @Singleton
+    fun providesSplashScreenUseCase(splashRepository: SplashRepository): SplashScreenUseCase {
+        return SplashScreenUseCase(splashRepository)
     }
 }
