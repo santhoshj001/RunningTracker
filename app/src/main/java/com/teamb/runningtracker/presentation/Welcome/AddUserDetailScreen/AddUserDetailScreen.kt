@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -50,6 +51,16 @@ fun AddUserDetailScreen(
                     .padding(18.dp),
                 verticalArrangement = Arrangement.Center
             ) {
+
+                Text(
+                    text = "Personal Information",
+                    modifier = Modifier
+                        .padding(vertical = 24.dp)
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.h5
+                )
+
 
                 OutlinedTextField(
                     value = state.firstName,
