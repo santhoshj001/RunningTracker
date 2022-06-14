@@ -12,7 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.teamb.runningtracker.presentation.AddUserDetailScreen.AddUserDetailScreen
+import androidx.navigation.compose.rememberNavController
+import com.teamb.runningtracker.presentation.common.Screen
+import com.teamb.runningtracker.presentation.navigation.SetUpNavGraph
 import com.teamb.runningtracker.ui.theme.RunningTrackerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-     private val splashViewModel: SplashViewModel by viewModels()
+    private val splashViewModel: SplashViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +38,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    AddUserDetailScreen()
+                    val navController = rememberNavController()
+                    SetUpNavGraph(
+                        navHostController = navController,
+                        startDestination = Screen.WelcomeScreen.route
+                    )
                 }
             }
         }

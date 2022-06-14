@@ -1,4 +1,4 @@
-package com.teamb.runningtracker.presentation.AddUserDetailScreen
+package com.teamb.runningtracker.presentation.Welcome.AddUserDetailScreen
 
 data class AddUserDetailScreenState(
     val firstName: String = "",

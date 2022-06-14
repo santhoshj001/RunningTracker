@@ -1,4 +1,4 @@
-package com.teamb.runningtracker.presentation.AddUserDetailScreen
+package com.teamb.runningtracker.presentation.Welcome.AddUserDetailScreen
 
 sealed class AddUserDetailScreenEvent() {
     data class OnFirstNameChange(val firstName: String) : AddUserDetailScreenEvent()

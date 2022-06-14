@@ -80,15 +80,21 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.google.maps.android:maps-compose:2.2.1'
 
-
+    //protobuf
     implementation "androidx.datastore:datastore:1.0.0"
     implementation  "com.google.protobuf:protobuf-javalite:3.20.0"
 
     //permission
     implementation 'com.google.accompanist:accompanist-permissions:0.24.10-beta'
 
+    // pager
+    implementation 'com.google.accompanist:accompanist-pager:0.24.10-beta'
+    implementation 'com.google.accompanist:accompanist-pager-indicators:0.24.10-beta'
 
+    // preference Data Store
     implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    //SplashScreen
     implementation 'androidx.core:core-splashscreen:1.0.0-rc01'
 
 

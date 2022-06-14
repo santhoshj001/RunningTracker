@@ -1,4 +1,4 @@
-package com.teamb.runningtracker.presentation.AddUserDetailScreen
+package com.teamb.runningtracker.presentation.Welcome.AddUserDetailScreen
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,17 +30,17 @@ class AddUserAuthViewModel @Inject constructor(
 
             is AddUserDetailScreenEvent.OnFirstNameChange -> {
                 state = state.copy(
-                    firstName = event.firstName
+                    firstName = event.firstName, firstNameError = null
                 )
             }
             is AddUserDetailScreenEvent.OnLastNameChange -> {
-                state = state.copy(lastName = event.lastName)
+                state = state.copy(lastName = event.lastName, lastNameError = null)
             }
             is AddUserDetailScreenEvent.OnAgeChange -> {
-                state = state.copy(age = event.age)
+                state = state.copy(age = event.age, ageError = null)
             }
             is AddUserDetailScreenEvent.OnWeightChange -> {
-                state = state.copy(weight = event.weight)
+                state = state.copy(weight = event.weight, weightError = null)
             }
             is AddUserDetailScreenEvent.OnSubmit -> {
                 saveUserDetail()
