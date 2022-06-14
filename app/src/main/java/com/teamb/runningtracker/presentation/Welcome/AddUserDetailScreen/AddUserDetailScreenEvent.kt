@@ -5,5 +5,6 @@ sealed class AddUserDetailScreenEvent() {
     data class OnLastNameChange(val lastName: String) : AddUserDetailScreenEvent()
     data class OnAgeChange(val age: String) : AddUserDetailScreenEvent()
     data class OnWeightChange(val weight: String) : AddUserDetailScreenEvent()
-    object OnSubmit : AddUserDetailScreenEvent()
+    data class OnSubmit(val isOnBoarding: Boolean) : AddUserDetailScreenEvent()
 }
+

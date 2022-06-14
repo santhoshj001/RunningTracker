@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -16,15 +17,26 @@ import androidx.navigation.NavHostController
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun AddUserDetailScreen(
+    is0nBoarding: Boolean,
     navHostController: NavHostController,
     viewModel: AddUserAuthViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(key1 = true) {
+        viewModel.eventSharedFlow.collect { event ->
+            when (event) {
+                is ScreenEvent.Navigate -> {
+                    navHostController.popBackStack()
+                    navHostController.navigate(event.route)
+                }
+            }
+        }
+    }
+
 
     val state = viewModel.state
-
     Scaffold(Modifier.fillMaxSize(), floatingActionButton = {
         FloatingActionButton(onClick = {
-            viewModel.onEvent(AddUserDetailScreenEvent.OnSubmit)
+            viewModel.onEvent(AddUserDetailScreenEvent.OnSubmit(is0nBoarding))
         }) {
             Icon(imageVector = Icons.Default.Check, contentDescription = "")
         }
@@ -33,7 +45,9 @@ fun AddUserDetailScreen(
 
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
-                Modifier.fillMaxSize().padding(48.dp),
+                Modifier
+                    .fillMaxSize()
+                    .padding(18.dp),
                 verticalArrangement = Arrangement.Center
             ) {
 

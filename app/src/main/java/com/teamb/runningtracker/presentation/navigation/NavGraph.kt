@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.teamb.runningtracker.presentation.RunListScreen.RunListScreen
 import com.teamb.runningtracker.presentation.WelcomeScreen
 import com.teamb.runningtracker.presentation.common.Screen
 
@@ -17,11 +18,9 @@ fun SetUpNavGraph(
         composable(Screen.WelcomeScreen.route) {
             WelcomeScreen(navHostController)
         }
-
         composable(Screen.HomeScreen.route) {
-
+            RunListScreen()
         }
-
     }
 
 

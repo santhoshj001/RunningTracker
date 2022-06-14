@@ -20,7 +20,6 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun WelcomeScreen(navHostController: NavHostController) {
-
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     Column(Modifier.fillMaxSize()) {
@@ -34,7 +33,7 @@ fun WelcomeScreen(navHostController: NavHostController) {
             when (position) {
                 0 -> {
                     IntroScreen(nextClick = {
-                        scope.launch { pagerState.animateScrollToPage(page = 1, initialVelocity = 0.1f) }
+                        scope.launch { pagerState.animateScrollToPage(page = 1) }
                     })
                 }
                 1 -> {
@@ -43,7 +42,7 @@ fun WelcomeScreen(navHostController: NavHostController) {
                     })
                 }
                 2 -> {
-                    AddUserDetailScreen(navHostController = navHostController)
+                    AddUserDetailScreen(is0nBoarding = true,navHostController)
                 }
             }
 

@@ -6,16 +6,20 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamb.runningtracker.domain.model.UserDetailUiModel
+import com.teamb.runningtracker.domain.usecase.SplashScreenUseCase
 import com.teamb.runningtracker.domain.usecase.userdetail.UserDetailUseCase
 import com.teamb.runningtracker.domain.usecase.validation.ValidationUseCase
+import com.teamb.runningtracker.presentation.common.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AddUserAuthViewModel @Inject constructor(
     private val userDetailUseCase: UserDetailUseCase,
-    private val validationUseCase: ValidationUseCase
+    private val validationUseCase: ValidationUseCase,
+    private val splashScreenUseCase: SplashScreenUseCase
 ) : ViewModel() {
 
     init {
@@ -24,6 +28,10 @@ class AddUserAuthViewModel @Inject constructor(
 
     var state by mutableStateOf(AddUserDetailScreenState())
         private set
+
+
+    private var _eventSharedFlow = MutableSharedFlow<ScreenEvent>()
+    val eventSharedFlow = _eventSharedFlow
 
     fun onEvent(event: AddUserDetailScreenEvent) {
         when (event) {
@@ -43,7 +51,7 @@ class AddUserAuthViewModel @Inject constructor(
                 state = state.copy(weight = event.weight, weightError = null)
             }
             is AddUserDetailScreenEvent.OnSubmit -> {
-                saveUserDetail()
+                saveUserDetail(event.isOnBoarding)
             }
         }
     }
@@ -61,7 +69,7 @@ class AddUserAuthViewModel @Inject constructor(
         }
     }
 
-    private fun saveUserDetail() {
+    private fun saveUserDetail(onBoarding: Boolean) {
         val firstNameResult = validationUseCase.firstNameValidationUseCase(state.firstName)
         val lastNameResult = validationUseCase.lastNameValidationUseCase(state.lastName)
         val ageResult = validationUseCase.ageValidationUseCase(state.age)
@@ -85,7 +93,19 @@ class AddUserAuthViewModel @Inject constructor(
                     weight = state.weight.toFloat()
                 )
                 userDetailUseCase.saveUserDetailUseCase.saveUSerDetail(userDetailUiModel)
+                if (onBoarding) {
+                    splashScreenUseCase.setIsOnBoardingCompleted(true)
+                    triggerEvent()
+                }
             }
         }
     }
+
+
+    private fun triggerEvent() {
+        viewModelScope.launch {
+            _eventSharedFlow.emit(ScreenEvent.Navigate(Screen.HomeScreen.route))
+        }
+    }
+
 }

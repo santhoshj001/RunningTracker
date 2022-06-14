@@ -1,20 +1,21 @@
 package com.teamb.runningtracker.presentation.Welcome
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.airbnb.lottie.compose.*
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
+import com.teamb.runningtracker.R
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -29,13 +30,21 @@ fun PerMissionScreen(nextClick: () -> Unit) {
             }
         },
         content = {
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
-                contentAlignment = Alignment.Center
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                FeatureThatRequiresCameraPermission()
+                LoadingLocation(
+                    Modifier
+                        .fillMaxWidth()
+                        .weight(3f)
+                )
+                FeatureThatRequiresCameraPermission(
+                    Modifier.weight(1f)
+                )
             }
 
         }
@@ -43,38 +52,57 @@ fun PerMissionScreen(nextClick: () -> Unit) {
 }
 
 
+@Composable
+fun LoadingLocation(modifier: Modifier) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.location_globe))
+    val progress by animateLottieCompositionAsState(
+        composition,
+        iterations = LottieConstants.IterateForever,
+    )
+    LottieAnimation(
+        modifier = modifier,
+        composition = composition,
+        progress = progress,
+    )
+}
+
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-private fun FeatureThatRequiresCameraPermission() {
+private fun FeatureThatRequiresCameraPermission(modifier: Modifier) {
 
-    // Location permission state
-    val locationPermissionState = rememberPermissionState(
-        android.Manifest.permission.ACCESS_FINE_LOCATION,
-    )
+    Box(modifier = modifier) {
 
-    when (locationPermissionState.status) {
-        // If the Location permission is granted, then show screen with the feature enabled
-        PermissionStatus.Granted -> {
-            Text("Location permission Granted")
-        }
-        is PermissionStatus.Denied -> {
-            Column {
-                val textToShow =
-                    if ((locationPermissionState.status as PermissionStatus.Denied).shouldShowRationale) {
-                        // If the user has denied the permission but the rationale can be shown,
-                        // then gently explain why the app requires this permission
-                        "The Location is important for this app. Please grant the permission."
-                    } else {
-                        // If it's the first time the user lands on this feature, or the user
-                        // doesn't want to be asked again for this permission, explain that the
-                        // permission is required
-                        "Location permission required for this feature to be available. " +
-                                "Please grant the permission"
+        // Location permission state
+        val locationPermissionState = rememberPermissionState(
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+        )
+
+        when (locationPermissionState.status) {
+            // If the Location permission is granted, then show screen with the feature enabled
+            PermissionStatus.Granted -> {
+                Text("Location permission Granted")
+            }
+            is PermissionStatus.Denied -> {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    val textToShow =
+                        if ((locationPermissionState.status as PermissionStatus.Denied).shouldShowRationale) {
+                            // If the user has denied the permission but the rationale can be shown,
+                            // then gently explain why the app requires this permission
+                            "The Location is important for this app. Please grant the permission."
+                        } else {
+                            // If it's the first time the user lands on this feature, or the user
+                            // doesn't want to be asked again for this permission, explain that the
+                            // permission is required
+                            "Location permission required. " +
+                                    "Please grant the permission"
+                        }
+                    Text(textToShow, textAlign = TextAlign.Center)
+
+                    OutlinedButton(
+                        modifier = Modifier.padding(vertical = 16.dp),
+                        onClick = { locationPermissionState.launchPermissionRequest() }) {
+                        Text("Allow Permission")
                     }
-                Text(textToShow)
-
-                Button(onClick = { locationPermissionState.launchPermissionRequest() }) {
-                    Text("Request permission")
                 }
             }
         }

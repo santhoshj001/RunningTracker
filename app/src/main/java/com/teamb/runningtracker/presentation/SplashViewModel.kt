@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teamb.runningtracker.domain.usecase.SplashScreenUseCase
+import com.teamb.runningtracker.presentation.common.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -19,17 +20,20 @@ class SplashViewModel @Inject constructor(
     var isLoading by mutableStateOf(true)
         private set
 
+    var startDestination by mutableStateOf(Screen.WelcomeScreen.route)
+        private set
+
     init {
         viewModelScope.launch {
-            delay(3000)
-            isLoading = false
-
-        }
-    }
-
-    fun updatedOnBoardingCompleted() {
-        viewModelScope.launch {
-            splashScreenUseCase.setIsOnBoardingCompleted(true)
+            splashScreenUseCase.getIsOnBoardingCompleted().collect { onBoardingCompleted ->
+                startDestination = if (onBoardingCompleted) {
+                    Screen.HomeScreen.route
+                } else {
+                    Screen.WelcomeScreen.route
+                }
+                delay(500)
+                isLoading = false
+            }
         }
     }
 }
