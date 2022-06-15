@@ -1,4 +1,4 @@
-package com.teamb.runningtracker.presentation.StatisticsScreen
+package com.teamb.runningtracker.presentation.InsightsScreen
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text

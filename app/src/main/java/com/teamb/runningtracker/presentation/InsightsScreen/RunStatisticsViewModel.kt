@@ -1,4 +1,4 @@
-package com.teamb.runningtracker.presentation.StatisticsScreen
+package com.teamb.runningtracker.presentation.InsightsScreen
 
 import androidx.lifecycle.ViewModel
 import com.teamb.runningtracker.domain.usecase.runstatistics.RunStatisticsUseCase
